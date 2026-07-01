@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGraph - by kitakita</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app" data-mode="organic">
+      <canvas id="graphCanvas" aria-label="Interactive website graph"></canvas>
+
+      <header class="topbar glass">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <div>
+            <strong>WebGraph</strong>
+            <small>by kitakita</small>
+          </div>
+        </div>
+
+        <form id="urlForm" class="url-form">
+          <label class="url-shell" for="urlInput">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.8 13.2a4 4 0 0 0 5.7 0l2.3-2.3a4 4 0 1 0-5.7-5.7l-1 1" />
+              <path d="M13.2 10.8a4 4 0 0 0-5.7 0l-2.3 2.3a4 4 0 1 0 5.7 5.7l1-1" />
+            </svg>
+            <input id="urlInput" autocomplete="url" spellcheck="false" value="https://google.com" />
+          </label>
+          <button class="primary" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m13 6 6 6-6 6" />
+            </svg>
+            Scan
+          </button>
+        </form>
+
+        <div class="mode-switch" role="group" aria-label="Graph layout">
+          <button class="mode is-active" data-layout="organic" title="Organic force layout">Organic</button>
+          <button class="mode" data-layout="galaxy" title="3D galaxy layout">3D</button>
+          <button class="mode" data-layout="sphere" title="Sphere layout">Sphere</button>
+          <button class="mode" data-layout="radial" title="Radial layout">Radial</button>
+          <button class="mode" data-layout="tree" title="Tree layout">Tree</button>
+        </div>
+      </header>
+
+      <aside class="left-panel panel glass">
+        <section class="summary">
+          <div class="section-heading">
+            <span>Site Intel</span>
+            <button class="icon-button" id="fitButton" title="Fit graph to viewport" aria-label="Fit graph">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+                <path d="M16 3h3a2 2 0 0 1 2 2v3" />
+                <path d="M8 21H5a2 2 0 0 1-2-2v-3" />
+                <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+              </svg>
+            </button>
+          </div>
+          <h1 id="siteTitle">google.com</h1>
+          <p id="siteSummary">Enter a URL and watch WebGraph map pages, assets, APIs, services, risks, and hidden endpoints as a living graph.</p>
+          <div class="score-row">
+            <div class="score-card">
+              <span>Performance</span>
+              <strong id="performanceScore">94</strong>
+            </div>
+            <div class="score-card risk">
+              <span>Risk</span>
+              <strong id="riskScore">12</strong>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-heading"><span>Stack</span></div>
+          <div class="chips" id="stackChips"></div>
+        </section>
+
+        <section>
+          <div class="section-heading"><span>Live Stats</span></div>
+          <div class="stats-grid" id="statsGrid"></div>
+        </section>
+
+        <section>
+          <div class="section-heading"><span>Layers</span></div>
+          <div class="filters" id="filters"></div>
+        </section>
+
+        <section>
+          <div class="section-heading"><span>Clusters</span></div>
+          <div class="clusters" id="clusterList"></div>
+        </section>
+      </aside>
+
+      <aside class="right-panel panel glass">
+        <section class="search-section">
+          <div class="section-heading"><span>Search</span></div>
+          <label class="search-box" for="searchInput">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+            <input id="searchInput" placeholder="Find endpoints, assets, services..." />
+          </label>
+        </section>
+
+        <section class="inspector" id="inspector">
+          <div class="section-heading">
+            <span>Inspector</span>
+            <button class="icon-button" id="closeInspector" title="Clear selection" aria-label="Clear selection">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
+          </div>
+          <div id="inspectorContent" class="empty-state">
+            <span class="empty-orbit"></span>
+            <strong>Select a node</strong>
+            <p>Click any graph object to inspect headers, relationships, previews, generated snippets, and endpoint details.</p>
+          </div>
+        </section>
+      </aside>
+
+      <section class="bottom-panel glass">
+        <div class="timeline-controls">
+          <button class="icon-text" id="replayButton">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 12a9 9 0 1 0 3-6.7" />
+              <path d="M3 3v6h6" />
+            </svg>
+            Replay
+          </button>
+          <button class="icon-button" id="pauseButton" title="Pause discovery" aria-label="Pause discovery">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14" />
+              <path d="M16 5v14" />
+            </svg>
+          </button>
+          <label class="range-label">Speed <input id="speedRange" type="range" min="0.25" max="3" step="0.25" value="1" /></label>
+          <label class="toggle-line"><input id="reverseToggle" type="checkbox" /> Reverse</label>
+        </div>
+        <ol class="timeline" id="timelineList" aria-label="Discovery timeline"></ol>
+      </section>
+
+      <section class="export-panel glass">
+        <select id="exportFormat" aria-label="Export format">
+          <option value="json">JSON</option>
+          <option value="csv">CSV</option>
+          <option value="svg">SVG</option>
+          <option value="png">PNG</option>
+          <option value="graphml">GraphML</option>
+          <option value="mermaid">Mermaid</option>
+          <option value="html">Interactive HTML</option>
+          <option value="markdown">Markdown Report</option>
+          <option value="pdf">PDF Report</option>
+        </select>
+        <button id="exportButton" class="icon-button" title="Export graph" aria-label="Export graph">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v12" />
+            <path d="m7 10 5 5 5-5" />
+            <path d="M5 21h14" />
+          </svg>
+        </button>
+      </section>
+
+      <canvas id="miniMap" class="mini-map glass" aria-label="Graph mini map"></canvas>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+      <menu id="contextMenu" class="context-menu glass">
+        <button data-action="inspect">Inspect</button>
+        <button data-action="open">Open URL</button>
+        <button data-action="copy">Copy Endpoint</button>
+        <button data-action="scraper">Generate Scraper</button>
+        <button data-action="playwright">Generate Playwright Code</button>
+        <button data-action="curl">Generate cURL</button>
+        <button data-action="client">Generate API Client</button>
+        <button data-action="request">Open Request</button>
+        <button data-action="pin">Pin Node</button>
+        <button data-action="hide">Hide Node</button>
+        <button data-action="expand">Expand Neighbors</button>
+      </menu>
+    </div>
+
+    <script src="./app.js?v=google-kitakita-1"></script>
+  </body>
+</html>
