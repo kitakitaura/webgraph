@@ -1,6 +1,6 @@
 # WebGraph by KitaKita
 
-**Exploring websites.**
+**Exploring websites. Would love if you starred this... haha haha.**
 
 > LIVE, LIMITED DEMO: https://webgraph.kitaaura.com/
 > 
