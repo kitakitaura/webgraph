@@ -2,9 +2,9 @@
 
 **Exploring websites.**
 
-LIVE, LIMITED DEMO: https://webgraph.kitaaura.com/
-
-Due to overloads of requests from the server, A LOT of bigger websites dont work
+> LIVE, LIMITED DEMO: https://webgraph.kitaaura.com/
+> 
+> Due to overloads of requests from the server, A LOT of bigger websites dont work
 
 
 WebGraph turns any website into an interactive map. Instead of digging through HTML, links, or developer tools, you can visually see how a website is built. 
